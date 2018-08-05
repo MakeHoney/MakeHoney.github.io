@@ -23,7 +23,7 @@ description              : "공부한 내용을 정리하는 블로그입니다.
 url                      : https://MakeHoney.github.io
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : makehoney/MakeHoney.github.io
-teaser                   : "https://camo.githubusercontent.com/dc3964d901d372fc2cffee2f7261211eb772bc96/68747470733a2f2f6d6d697374616b65732e6769746875622e696f2f6d696e696d616c2d6d697374616b65732f6173736574732f696d616765732f636f6e74726173742d736b696e2d617263686976652e706e67" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+teaser                   : # "https://camo.githubusercontent.com/dc3964d901d372fc2cffee2f7261211eb772bc96/68747470733a2f2f6d6d697374616b65732e6769746875622e696f2f6d696e696d616c2d6d697374616b65732f6173736574732f696d616765732f636f6e74726173742d736b696e2d617263686976652e706e67" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
@@ -101,8 +101,8 @@ analytics:
 # Site Author
 author:
   name             : "MakeHoney"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "안녕하세요."
+  avatar           : "https://user-images.githubusercontent.com/31656287/43687502-2312b8d2-9911-11e8-9beb-88d8fac803b1.jpg"
+  bio              : "블록체인, 자바스크립트, IPFS를 공부 중인 학생입니다. 블로그 글들은 복습을 목적으로 업로드하므로 잘못된 정보가 있다면 알려주시면 정말 감사하겠습니다."
   location         : "Suwon, South Korea"
   email            : "pourmonreve@likelion.org"
   uri              :
@@ -111,7 +111,7 @@ author:
   codepen          :
   dribbble         :
   flickr           :
-  facebook         :
+  facebook         : "profile.php?id=100010730311954"
   foursquare       :
   github           : "MakeHoney"
   gitlab           :
@@ -269,4 +269,3 @@ defaults:
       comments: # true
       share: true
       related: true
-
