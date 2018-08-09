@@ -7,7 +7,7 @@ tags:
 comments: true
 ---
 
-- #### Computed
+- ### Computed
 
   *computed* 프로퍼티는 기본적으로 *methods* 프로퍼티와 비슷해보입니다. 하지만 *computed* 프로퍼티의 메소드는 메소드내에 선언된 변수(*data*)에 의존적입니다.
 
@@ -67,8 +67,7 @@ comments: true
   ```
 
   위 예제에서 increase 또는 decrease 버튼을 누르면 `result()` 메소드가 실행되고 `output()` 메소드 또한 실행됩니다.
-
-
+  <br />
 
   **콘솔**
 
@@ -86,7 +85,7 @@ comments: true
 
   <br />
 
-- #### Watcher
+- ### Watcher
 
   *watch* 프로퍼티는 인스턴스 내 데이터 변경을 감지하는 감시자이다.
 
