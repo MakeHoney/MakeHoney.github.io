@@ -77,6 +77,7 @@ comments: true
 
     ``````vue
     <!-- components/hello-metamask.vue -->
+    
     <template lang="html">
       <p>Hello</p>
     </template>
@@ -95,6 +96,7 @@ comments: true
 
     ``````vue
     <!-- components/casino-dapp.vue -->
+    
     <template lang="html">
       <hello-metamask/>
     </template>
@@ -111,9 +113,11 @@ comments: true
     </style>
     ``````
 
-     이제 router/index.js 파일을 열어봅니다. 보시면 현재 하나의 라우터가 존재하고 여전히 HelloWorld.vue 컴포넌트를 가리키고 있는 모습을 볼 수 있는데요. 저희는 이 부분을 casino-dapp.vue을 가리키도록 수정할 것입니다.
+  * 이제 router/index.js 파일을 열어봅니다. 보시면 현재 하나의 라우터가 존재하고 여전히 HelloWorld.vue 컴포넌트를 가리키고 있는 모습을 볼 수 있는데요. 저희는 이 부분을 casino-dapp.vue을 가리키도록 수정할 것입니다.
 
     ``````javascript
+    /* router/index.js */
+    
     import Vue from 'vue';
     import Router from 'vue-router';
     import CasinoDapp from '@/components/casino-dapp';
@@ -134,6 +138,8 @@ comments: true
   * 마지막으로 src 디렉토리 밑에 util이라는 새로운 폴더를 생성합니다. 그리고 util 밑에 constants라는 폴더를 생성한 뒤에 그 안에 networks.js를 생성합니다. networks.js를 다음과 같이 채워줍니다.
 
     ``````javascript
+    /* src/util/constants/networks.js */
+    
     export const NETWORKS = {
      '1': 'Main Net',
      '2': 'Deprecated Morden test network',
@@ -150,4 +156,75 @@ comments: true
   * 마지막으로 src 밑에 store라는 폴더를 생성해줍니다. 이 부분은 바로 다음 주제에서 다루겠습니다!
 
     여기까지 오셨다면 root directory에서 'npm start'를 입력하여 서버를 켤 수 있습니다. 브라우저에 Hello라는 메시지가 나온다면 다음 단계를 진행하셔도 좋습니다!
+
+<br />
+
+* ## Vuex store 세팅하기
+
+  * 이번 주제에서는 Vuex의 store를 세팅해보겠습니다. 
+
+  * 일단 store안에 index.js와 state.js를 생성한 뒤에 state.js를 다음과 같이 작성합니다.
+
+    ``````javascript
+    /* store/state.js */
+    
+    let state = {
+      web3: {
+        isInjected: false,
+        web3Instance: null,
+        networkId: null,
+        coinbase: null,
+        balance: null,
+        error: null
+      },
+      contractInstance: null
+    };
+    
+    export default state;
+    ``````
+
+    
+
+  * 다음으로 index.js를 다음과 같이 작성합니다. Vuex 라이브러리와 Vue를 사용하기 위해서 import하고 state(데이터)를 역시 사용해야하므로 import해줍니다.
+
+    ``````javascript
+    /* store/index.js */
+    
+    import Vue from 'vue';
+    import Vuex from 'vuex';
+    import state from './state';
+    
+    Vue.use(Vuex);
+    
+    export const store = new Vuex.Store({
+     strict: true,
+     state,
+     mutations: {},
+     actions: {}
+    });
+    ``````
+
+  * 마지막으로 main.js에서 store를 import해 줍니다. 다음과 같이 폴더자체를 import시키면 Vuex에 의해서 안의 index.js가 자동으로 import됩니다.
+
+    ``````javascript
+    /* src/main.js */
+    
+    import Vue from 'vue';
+    import App from './App';
+    import router from './router';
+    import { store } from './store';
+    
+    Vue.config.productionTip = false;
+    
+    /* eslint-disable no-new */
+    new Vue({
+      el: '#app',
+      router,
+      store,
+      components: { App },
+      template: '<App/>'
+    });
+    ``````
+
+    
 
