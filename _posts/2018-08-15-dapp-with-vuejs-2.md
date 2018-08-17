@@ -54,4 +54,100 @@ comments: true
 
   <https://joshua1988.github.io/web-development/vuejs/vuex-getters-mutations/>
 
+  <br />
+
+* ## 기본 컴포넌트 작성
+
+   우리는 Part.1에서 vue-cli를 이용하여 Vue 앱을 생성하고 거기에 필요한 의존성들을 설치했습니다. 만약 이 과정을 잘 따라오셨다면 저희 프로젝트 디렉토리 구조는 다음과 같겠습니다.
+
+  ![1](https://user-images.githubusercontent.com/31656287/44269155-aa2d5500-a26e-11e8-8a2c-b97e7d1b4594.png)
+
+  ***\* 처음 vue init을 할 때 ESLint를 설치할 것이냐고 물어보는데 저희는 ESLint를 사용하지 않습니다. 이유는 ESLint를 설치할 경우 엄격한 syntax 작성 규칙이 적용되기 때문입니다. 저희는 간단한 개인 프로젝트를 진행하는 것이므로 이와 같은 툴은 필요하지 않습니다.***
+
   
+
+  * App.vue 파일의 img-tag를 제거하고 style 태그에 있는 모든 내용을 지웁니다.
+
+  * components/HelloWorld.vue 파일을 지운뒤에 해당 디렉토리에 casino-dapp.vue와 hello-metamask.vue 파일을 생성합니다.
+
+    * casino-dapp.vue: 메인 컴포넌트
+    * hello-metamask: MetaMask 데이터를 포함하는 컴포넌트
+
+  * hello-metamask.vue를 다음과 같이 작성합니다.
+
+    ``````vue
+    <!-- components/hello-metamask.vue -->
+    <template lang="html">
+      <p>Hello</p>
+    </template>
+    
+    <script>
+      export default {
+        name: 'hello-metamask'
+      }
+    </script>
+    
+    <style>
+    </style>
+    ``````
+
+  * 이제 우리는 casino-dapp 컴포넌트에서 hello-metamask 컴포넌트를 불러와야합니다. 이를 위해서 casino-dapp 컴포넌트에서 hello-metamask 컴포넌트를 import 한 뒤 자식 컴포넌트로 등록을 하면 템플릿에서 태그처럼 사용할 수 있습니다.
+
+    ``````vue
+    <!-- components/casino-dapp.vue -->
+    <template lang="html">
+      <hello-metamask/>
+    </template>
+    
+    <script>
+      import HelloMetamask from './hello-metamask.vue'
+      export default {
+        name: 'casino-dapp',
+        components: { HelloMetamask }
+      }
+    </script>
+    
+    <style>
+    </style>
+    ``````
+
+     이제 router/index.js 파일을 열어봅니다. 보시면 현재 하나의 라우터가 존재하고 여전히 HelloWorld.vue 컴포넌트를 가리키고 있는 모습을 볼 수 있는데요. 저희는 이 부분을 casino-dapp.vue을 가리키도록 수정할 것입니다.
+
+    ``````javascript
+    import Vue from 'vue';
+    import Router from 'vue-router';
+    import CasinoDapp from '@/components/casino-dapp';
+    
+    Vue.use(Router);
+    
+    export default new Router({
+      routes: [
+        {
+          path: '/',
+          name: 'casino-dapp',
+          component: CasinoDapp
+        }
+      ]
+    });
+    ``````
+
+  * 마지막으로 src 디렉토리 밑에 util이라는 새로운 폴더를 생성합니다. 그리고 util 밑에 constants라는 폴더를 생성한 뒤에 그 안에 networks.js를 생성합니다. networks.js를 다음과 같이 채워줍니다.
+
+    ``````javascript
+    export const NETWORKS = {
+     '1': 'Main Net',
+     '2': 'Deprecated Morden test network',
+     '3': 'Ropsten test network',
+     '4': 'Rinkeby test network',
+     '42': 'Kovan test network',
+     '4447': 'Truffle Develop Network',
+     '5777': 'Ganache Blockchain'
+    }
+    ``````
+
+    이 코드는 저희 이더리움 네트워크의 'id'를 대신하여 '이름'을 표시해 줄 것입니다.
+
+  * 마지막으로 src 밑에 store라는 폴더를 생성해줍니다. 이 부분은 바로 다음 주제에서 다루겠습니다!
+
+    여기까지 오셨다면 root directory에서 'npm start'를 입력하여 서버를 켤 수 있습니다. 브라우저에 Hello라는 메시지가 나온다면 다음 단계를 진행하셔도 좋습니다!
+
