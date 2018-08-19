@@ -391,3 +391,11 @@ comments: true
   ![5](https://user-images.githubusercontent.com/31656287/44309823-6d489600-a407-11e8-8d8c-8676e6831014.png)
 
    Vuex의 개념을 처음 접하신 분들도 있으실 것이기에 Part.2의 부분이 전체 파트 중에서 가장 어렵다고도 볼 수 있는 부분입니다. 다음 파트에서는 저희가 앞서 작성한 스마트 컨트랙트를 Vue 앱에 올리고 앱의 간단한 UI 작업을 하는 것으로 마무리하겠습니다. 고생하셨습니다.
+
+  <br />
+
+  ***\* 이 튜토리얼은 아래 참조 링크를 바탕으로 코드 상의 경고 또는 에러를 수정하여 작성되었음을 알려드립니다***
+
+* ## References
+
+  * <https://itnext.io/create-your-first-ethereum-dapp-with-web3-and-vue-js-part-2-52248a74d58a>
