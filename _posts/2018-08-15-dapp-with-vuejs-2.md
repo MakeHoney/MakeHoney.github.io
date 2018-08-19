@@ -230,5 +230,164 @@ comments: true
 
 * ## web3와 Metamask 연동
 
-  
+   앞서 설명드린바와 같이 우리 Vue 앱에서 사용할 데이터를 web3로부터 얻어 오려면 비동기 API 콜을 실행시켜줄 action을 dispatch해야 합니다. 먼저, util 밑에 getWeb3.js 파일을 생성한 뒤에 다음과 같이 작성해 줍니다.
 
+  ``````javascript
+  /* util/getWeb3.js */
+  
+  import Web3 from 'web3';
+  
+  let getWeb3 = new Promise((resolve, reject) => {
+    var web3js = window.web3;
+    if(typeof web3js !== 'undefined') {
+      let web3 = new Web3(web3js.currentProvider);
+      resolve({
+        injectedWeb3: web3.isConnected(),
+        web3 () {
+          return web3;
+        }
+      });
+    } else {
+      reject(new Error('Unable to connect to Metamask'));
+    }
+  }).then(result => {
+    return new Promise((resolve, reject) => {
+      result.web3().version.getNetwork((err, networkId) => {
+        if(err) {
+          reject(new Error('Unable to retrieve network ID'));
+        } else {
+          result = Object.assign({}, result, { networkId });
+          resolve(result);
+        }
+      });
+    });
+  }).then(result => {
+    return new Promise((resolve, reject) => {
+      result.web3().eth.getCoinbase((err, coinbase) => {
+        if(err) {
+          reject(new Error('Unable to retrieve coinbase'));
+        } else {
+          result = Object.assign({}, result, { coinbase });
+          resolve(result);
+        }
+      });
+    });
+  }).then(result => {
+    return new Promise((resolve, reject) => {
+      result.web3().eth.getBalance(result.coinbase, (err, balance) => {
+        if(err) {
+          reject(new Error(`Unable to retrieve balance for addres: ${result.coinbase}`))
+        } else {
+          result = Object.assign({}, result, { balance });
+          resolve(result);
+        }
+      });
+    });
+  });
+  
+  export default getWeb3;
+  ``````
+
+   MetaMask는 브라우저 상에서 자신의 web3 인스턴스를 지니고 있습니다. 따라서 우리는 첫번째 분기문을 통해서 window.web3(브라우저 상의 web3 인스턴스)가 undefined 인지 확인합니다. 만약 undefined가 아니라면 web3 인스턴스를 currentProvider로 생성합니다. 구조를 보시면 아시겠지만 다음 Promise에서 이전의 web3 인스턴스가 포함된 객체를 전달받으며 비동기 API 콜을 실행하고 결과에 따라서 객체에 멤버를 추가해 나갑니다.
+
+  * web3.version.getNetwork()는 현재 연결된 네트워크 ID를 반환합니다.
+  * web3.eth.coinbase()는 현재 채굴중인 노드의 주소를 반환합니다. 메타마스크 사용시에는 선택된 계좌 주소에 해당됩니다.
+  * web3.eth.getBalance(addr)는 인자로 전달된 주소의 잔액을 반환합니다.
+
+   앞서 설명드린 비동기 API 콜이 일어난 뒤로 해당 결과 값이 Vuex store를 통해서 state에 저장되기 까지의 과정을 기억하실 겁니다. 이제 이 부분을 연결할건데요. 먼저 store/index.js 에서 getWeb3.js 파일을 import해준뒤 action단에서 mutation에 commit하게 되면 mutation이 store에 데이터를 저장시켜 줄 것입니다.
+
+  ``````javascript
+  /* store/index.js */
+  
+  import getWeb3 from '../util/getWeb3';
+  ``````
+
+   다음으로 action 객체에서 getWeb3를 불러온 뒤 해당 결과 값을 mutation에 commit하겠습니다. 또한 일련의 과정을 확인하기 쉽도록 console.log도 중간중간 삽입하겠습니다.
+
+  ``````javascript
+  /* store/index.js */
+  
+   actions: {
+     async registerWeb3 ({ commit }) {
+       console.log('registerWeb3 Action being executed');
+       try {
+         let result = await getWeb3;
+         console.log('registerWeb3Instance', result);
+         commit('registerWeb3Instance', result);
+       } catch (err) {
+         console.log('error in action registerWeb3', err);
+       }
+     }
+   }
+  ``````
+
+   다음으로 우리의 데이터를 state에 저장시켜줄 mutation 객체를 채워넣겠습니다. 저희가 action에서 commit한 데이터는 두번째 인자인 payload를 통해서 접근할 수 있습니다.
+
+  ``````javascript
+  /* store/index.js */
+  
+  mutations: {
+     registerWeb3Insctance (state, payload) {
+       console.log('registerWeb3instance Mutation being executed', payload);
+       let result = payload;
+       let web3Copy = state.web3;
+       web3Copy.coinbase = result.coinbase;
+       web3Copy.networkId = result.networkId;
+       web3Copy.balance = parseInt(result.balance, 10);
+       web3Copy.isInjected = result.injectedWeb3;
+       web3Copy.web3Instance = result.web3;
+       state.web3 = web3Copy;
+     }
+   }
+  ``````
+
+   이제는 컴포넌트 단에서 위 요소를 실행 가능하도록 해줘야 합니다. 이를 위해서 casino-dapp 컴포넌트가 생성되기 이전에 이를 실행할 수 있도록 아래와 같이 코드를 작성해 줍니다. 뷰 인스턴스의 라이프 사이클에 대해서 잘 모르시는 분들은 [여기](https://kr.vuejs.org/v2/guide/instance.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%82%AC%EC%9D%B4%ED%81%B4-%ED%9B%85)에서 공식 문서를 보실 수 있습니다.
+
+  ``````vue
+  <!-- casino-dapp.vue -->
+  
+  export default {
+    name: 'casino-dapp',
+    beforeCreate () {
+      console.log('registerWeb3 Action dispatched from casino-dapp.vue')
+      this.$store.dispatch('registerWeb3')
+    },
+    components: {
+      'hello-metamask': HelloMetamask
+    }
+  }
+  ``````
+
+   자 이제 마지막으로 수정된 데이터가 렌더링되어 브라우저를 통해 보여질 수 있도록 hello-MetaMask 컴포넌트의 템플릿과 스크립트를 아래와 같이 수정해 줍니다.
+
+  ``````vue
+  <!-- hello-metamask.vue -->
+  
+  <template>
+   <div class='metamask-info'>
+     <p>Metamask: {{ web3.isInjected }}</p>
+     <p>Network: {{ web3.networkId }}</p>
+     <p>Account: {{ web3.coinbase }}</p>
+     <p>Balance: {{ web3.balance }}</p>
+   </div>
+  </template>
+  
+  <script>
+  export default {
+   name: 'hello-metamask',
+   computed: {
+     web3 () {
+       return this.$store.state.web3
+       }
+     }
+  }
+  </script>
+  
+  <style scoped></style>
+  ``````
+
+   이로써 저희는 브라우저 상의 MetaMask와 저희 Vue 앱을 연동하는 과정까지 해보았습니다. 만약 성공적으로 따라오셨다면 터미널에 npm start를 입력한 뒤 localhost:8080에 접속해보시면 아래와 같은 화면을 보실 수 있으실 겁니다.
+
+  ![5](https://user-images.githubusercontent.com/31656287/44309823-6d489600-a407-11e8-8d8c-8676e6831014.png)
+
+   Vuex의 개념을 처음 접하신 분들도 있으실 것이기에 Part.2의 부분이 전체 파트 중에서 가장 어렵다고도 볼 수 있는 부분입니다. 다음 파트에서는 저희가 앞서 작성한 스마트 컨트랙트를 Vue 앱에 올리고 앱의 간단한 UI 작업을 하는 것으로 마무리하겠습니다. 고생하셨습니다.
