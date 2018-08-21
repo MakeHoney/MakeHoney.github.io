@@ -7,3 +7,14 @@ tags:
 comments: true
 ---
 
+
+
+Part.1: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-1/>
+
+Part.2: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-2/>
+
+<br />
+
+* ## 데이터 폴링
+
+  
