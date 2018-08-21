@@ -7,7 +7,7 @@ tags:
 comments: true
 ---
 
- 안녕하세요. 이번 포스팅은 Casino DApp 구축 튜토리얼의 2편입니다. 혹시 1편을 보지 못하신분들은 <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-1/> 에서 1편을 보실 수 있습니다.
+Part.1: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-1/>
 
 
 
