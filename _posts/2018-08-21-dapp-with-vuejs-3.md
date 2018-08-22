@@ -419,6 +419,6 @@ Part.2: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-2/>
 
 * ## References
 
-  - <https://itnext.io/create-your-first-ethereum-dapp-with-web3-and-vue-js-part-2-52248a74d58a>
+  - <https://itnext.io/create-your-first-ethereum-dapp-with-web3-and-vue-js-part-3-dc4f82fba4b4>
 
   
