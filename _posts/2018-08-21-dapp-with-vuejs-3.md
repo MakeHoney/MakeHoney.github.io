@@ -181,3 +181,244 @@ Part.2: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-2/>
 
    이 작업을 통해서 우리의 컨트랙트 인스턴스가 컴포넌트로부터 store의 state에 저장될 것입니다.
 
+  <br />
+
+* ## 스마트 컨트랙트와 상호작용하기
+
+   스마트 컨트랙트와의 상호작용을 위해서는 먼저 브라우저 상에서 보여질 템플릿을 작성한 뒤에 템플릿에 상응하는 data와 methods 프로퍼티를 추가해야 합니다.
+
+  ``````vue
+  <!-- casino-component.vue --> 
+  
+  data () {
+     return {
+       amount: null,
+       pending: false,
+       winEvent: null
+     }
+   }
+  ``````
+
+   다음으로 숫자가 클릭되었을 때 컨트랙트의 bet() 함수를 트리거해주는 함수를 methods 프로퍼티에 추가해줍니다.
+
+  ``````vue
+  <!-- casino-component -->
+  
+  methods: {
+    clickNumber (event) {
+      console.log(event.target.innerHTML, this.amount)
+      this.winEvent = null
+      this.pending = true
+      this.$store.state.contractInstance().bet(event.target.innerHTML, {
+        gas: 300000,
+        value: this.$store.state.web3.web3Instance().toWei(this.amount, 'ether'),
+        from: this.$store.state.web3.coinbase
+      }, (err, result) => {
+        if (err) {
+          console.log(err)
+          this.pending = false
+        } else {
+          let bettingResult = this.$store.state.contractInstance().bettingResult()
+          /* .watch => solidity event를 감시 */
+          bettingResult.watch((err, result) => {
+            if (err) {
+              console.log('could not get event Won()')
+            } else {
+              this.winEvent = result.args
+              this.winEvent.rewards = parseInt(result.args.rewards, 10)
+              console.log(`winEvent: ${result.args}`)
+              this.pending = false
+            }
+          });
+        }
+      });
+    }
+  }
+  ``````
+
+   bet() 함수의 첫번째 파라미터인 event.tartget.innerHTML은 템플릿의 li 태그 내부 값(숫자 1-10)을 가리킵니다. 그 다음 파라미터는 트랜잭션 파라미터로서 가스, 유저가 거는 금액 및 베팅하는 사람의 address 등을 받고, 마지막 파라미터는 bet() 함수의 콜백으로 동작합니다. watch 메소드는 컨트랙트 코드 상에서의 event를 감시하는 감시자입니다.
+
+   다음은 템플릿 및 스타일 코드입니다. casino-component의 템플릿과 스타일 시트에 그대로 작성합니다.
+
+  ``````vue
+  <!-- casino-component.vue -->
+  
+  <template>
+   <div class="casino">
+     <h1>Welcome to the Casino</h1>
+     <h4>Please pick a number between 1 and 10</h4>
+     Amount to bet: <input v-model="amount" placeholder="0 Ether">
+     <ul>
+       <li v-on:click='clickNumber'>1</li>
+       <li v-on:click='clickNumber'>2</li>
+       <li v-on:click='clickNumber'>3</li>
+       <li v-on:click='clickNumber'>4</li>
+       <li v-on:click='clickNumber'>5</li>
+       <li v-on:click='clickNumber'>6</li>
+       <li v-on:click='clickNumber'>7</li>
+       <li v-on:click='clickNumber'>8</li>
+       <li v-on:click='clickNumber'>9</li>
+       <li v-on:click='clickNumber'>10</li>
+    </ul>
+    <img v-if="pending" id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif">
+    <div class="event" v-if="winEvent">
+      <p>Won: {{ winEvent.userWin }}</p>
+      <p>Winning Number: {{ winEvent.winningNumber }}</p>
+      <p>Amount: {{ winEvent.rewards }} Wei</p>
+    </div>
+    <div class="event" v-if="winEvent">
+     <p v-if="winEvent.userWin" id="has-won"><i aria-hidden="true" class="fa fa-check"></i> Congragulations, you have won {{winEvent.rewards}} wei</p>
+     <p v-else id="has-lost"><i aria-hidden="true" class="fa fa-check"></i> Sorry you lost, please try again.</p>
+    </div>
+   </div>
+  </template>
+  
+  <style scoped>
+  .casino {
+   margin-top: 50px;
+   text-align:center;
+  }
+  #loader {
+   width:150px;
+  }
+  ul {
+   margin: 25px;
+   list-style-type: none;
+   display: grid;
+   grid-template-columns: repeat(5, 1fr);
+   grid-column-gap:25px;
+   grid-row-gap:25px;
+  }
+  li{
+   padding: 20px;
+   margin-right: 5px;
+   border-radius: 50%;
+   cursor: pointer;
+   background-color:#fff;
+   border: -2px solid #bf0d9b;
+   color: #bf0d9b;
+   box-shadow:3px 5px #bf0d9b;
+  }
+  li:hover{
+   background-color:#bf0d9b;
+   color:white;
+   box-shadow:0px 0px #bf0d9b;
+  }
+  li:active{
+   opacity: 0.7;
+  }
+  *{
+   color: #444444;
+  }
+  #has-won {
+    color: green;
+  }
+  #has-lost {
+    color:red;
+  }
+  </style>
+  ``````
+
+  <br />
+
+* ## Ropsten 테스트넷에 컨트랙트 배포하기
+
+   Ropsten 테스트넷에 컨트랙트를 배포하기 위해서는 Part.1의 과정에서 environment를 javascriptVM로 설정했던 것을 injected Web3로 설정한 뒤에 동일하게 배포를 하시면 됩니다. 
+
+   배포를 성공적으로 마치면 remix 콘솔창에 EtherScan의 링크가 나올 것이고 들어가면 다음과 같이 컨트랙트 배포가 된 것을 확인해 보실 수 있습니다.
+
+  ![3](https://user-images.githubusercontent.com/31656287/44467547-18528d00-a65e-11e8-8ed6-8fd90e110169.png)
+
+   다음으로 Remix의 Compile 탭의 Detail 버튼을 누르면 ABI를 알아낼 수 있습니다.
+
+  ![1](https://user-images.githubusercontent.com/31656287/44467841-dece5180-a65e-11e8-8eb1-f44b6b225667.png)
+
+   그 다음 Run 탭의 Deployed Contracts에서 배포된 컨트랙트의 address를 알 수 있습니다.
+
+  ![2](https://user-images.githubusercontent.com/31656287/44467843-e0981500-a65e-11e8-80ba-bfda109f35c0.png)
+
+  
+
+   마지막으로 이렇게 알아낸 정보들을 util/constants 아래에 casinoContract.js를 생성하여 다음과 같이 작성하면 마침내 저희 DApp이 완성됩니다!
+
+  ``````
+  const address = ‘0x…………..’
+  const ABI = […]
+  export {address, ABI}
+  ``````
+
+  <br />
+
+* ## 프론트엔드
+
+   이번 주제는 필수적인 부분이 아닙니다. 위 과정에서 만족하셨으면 넘어가셔도 무방합니다!
+
+  여기서는 hello-metamask 컴포넌트를 수정할 계획입니다. 먼저 Vuex의 mapState 헬퍼를 시용하여 템플릿에 분기문을 작성하고 HTML이 그에 따라 다르게 렌더링되도록 할 것입니다. 
+
+   이에 앞서 아이콘 사용을 위해서 main.js에서 다음과 같이 css를 import해줍니다.
+
+  ``````javascript
+  /* main.js */
+  
+  import 'font-awesome/css/font-awesome.css'
+  ``````
+
+  
+
+   최종 hello-metamask.vue의 코드는 다음과 같습니다.
+
+  ``````vue
+  <!-- hello-metamask.vue -->
+  
+  <template lang="html">
+    <div class='metamask-info'>
+      <p v-if="isInjected" id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> Metamask installed</p>
+      <p v-else id="no-metamask"><i aria-hidden="true" class="fa fa-times"></i> Metamask not found</p>
+      <p>Network: {{ network }}</p>
+      <p>Account: {{ coinbase }}</p>
+      <p>Balance: {{ balance }} Wei </p>
+    </div>
+  </template>
+  
+  <script>
+    import {NETWORKS} from '../util/constants/networks'
+    import {mapState} from 'vuex'
+    export default {
+      name: 'hello-metamask',
+      computed: mapState({
+        isInjected: state => state.web3.isInjected,
+        network: state => NETWORKS[state.web3.networkId],
+        coinbase: state => state.web3.coinbase,
+        balance: state => state.web3.balance
+      })
+    }
+  </script>
+  
+  <style scoped>
+  #has-metamask {
+    color: green;
+  }
+  #no-metamask {
+    color:red;
+  }</style>
+  ``````
+
+  <br />
+
+* ## 마무리
+
+   저희가 여태까지 만든 DApp의 전체 코드는  <https://github.com/MakeHoney/DApp_with_vue> 이곳에서 확인해 보실 수 있습니다! 여기까지 잘 따라오셨다면 터미널에서 앱을 실행 시킨 뒤에 localhost:8080으로 접속하시어 베팅을 해보시면 아래와 같은 결과를 보실 수 있으실 겁니다.
+
+  ![3](https://user-images.githubusercontent.com/31656287/44471710-70da5800-a667-11e8-9a3d-1a25ad865dba.png)
+
+  고생하셨습니다!
+
+   <br />
+
+    ***\* 이 튜토리얼은 아래 참조 링크를 바탕으로 코드 상의 경고 또는 에러를 수정하여 작성되었음을 알려드립니다***
+
+* ## References
+
+  - <https://itnext.io/create-your-first-ethereum-dapp-with-web3-and-vue-js-part-2-52248a74d58a>
+
+  
