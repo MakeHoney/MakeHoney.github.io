@@ -394,6 +394,10 @@ Part.1: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-1/>
 
   <br />
 
+ Part.3: <https://makehoney.github.io/post/2018/08/21/dapp-with-vuejs-3/>
+
+ 프로젝트 전체 코드는 다음 링크를 가시면 보실 수 있습니다. <https://github.com/MakeHoney/DApp_with_vue>
+
   ***\* 이 튜토리얼은 아래 참조 링크를 바탕으로 코드 상의 경고 또는 에러를 수정하여 작성되었음을 알려드립니다***
 
 * ## References

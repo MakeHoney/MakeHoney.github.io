@@ -228,11 +228,15 @@ comments: true
 
   ![6](https://user-images.githubusercontent.com/31656287/44124043-24e0a6d6-a066-11e8-847d-5020eb599dd4.png)
 
-   20 ether 씩 3번의 시도만에 이겼습니다. 잔고가 340 ether에서 520 ether가 된 모습입니다. 계산 로직상 9배의 이득을 취합니다. 20 ether면 기댓값보다 작은 값임에도 체감상으론 그렇지 않은 것 같습니다. ㅋㅋ
+   20 ether 씩 3번의 시도만에 이겼습니다. 잔고가 340 ether에서 520 ether가 된 모습입니다. 계산 로직상 9배의 이득을 취합니다. 20 ether면 기댓값보다 작은 값임에도 체감상으론 그렇지 않은 것 같네요. ㅎㅎ
 
   <br />
 
    고생하셨습니다. 이번 편은 여기에서 마치겠습니다. 다음 편에서는 web3와 Vue 및 Vuex를 이용하여 웹 프론트를 구성하고 MetaMask와 연동하는 작업을 해보겠습니다.
+
+  <br />
+
+  Part.2: <https://makehoney.github.io/post/2018/08/15/dapp-with-vuejs-2/>
 
    프로젝트 전체 코드는 다음 링크를 가시면 보실 수 있습니다. <https://github.com/MakeHoney/DApp_with_vue>
 
