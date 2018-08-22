@@ -113,4 +113,71 @@ Part.2: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-2/>
 
 * ## 스마트 컨트랙트 초기화하기
 
+   이번 과정에서는 먼저 컨트랙트 초기화의 뼈대가 되는 코드를 작성한 뒤에 스마트 컨트랙트를 배포하고 ABI와 address 값을 저희 앱에 넣을 것입니다.
+
+  * 유저가 베팅할 금액을 써 넣을 input field가 필요합니다.
+  * 유저가 베팅할 번호를 선택할 수 있는 버튼이 필요합니다.
+  * on click 함수는 컨트랙트의 bet() 함수를 호출해야합니다.
+  * 트랜잭션 중(완료되지 않음)임을 표시해주는 로딩 스피너가 필요합니다.
+  * 트랜잭션이 완료됐을 때 게임의 결과를 표시해줘야 합니다.
+
+   먼저 우리 앱과 컨트랙트를 연결해주는 작업이 필요합니다. util 아래에 getContract.js를 생성하여 아래와 같이 작성해 줍니다.
+
+  ``````javascript
+  /* util/getContract.js */
   
+  import Web3 from 'web3';
+  import { address, ABI } from './constants/casinoContract';
+  
+  let getContract = new Promise((resolve, reject) => {
+    let web3 = new Web3(window.web3.currentProvider);
+    let casinoContract = web3.eth.contract(ABI);
+    let casinoContractInstance = casinoContract.at(address);
+    resolve(casinoContractInstance);
+  });
+  
+  export default getContract;
+  ``````
+
+   우선 주목할 부분은 두번째라인의 import하는 파일이 현재는 존재하지 않는다는 점입니다. casinoContract파일은 컨트랙트를 remix를 통해 배포한 뒤에 작성하도록 하겠습니다.
+
+   다음으로 casino-component.vue 파일을 아래와 같이 작성해줍니다. 아래 코드는 아시겠지만 dispatch의 대상이 되는 action과 commit의 대상인 mutation이 없으면 불완전한 코드입니다.
+
+  ``````vue
+  <!-- casino-component.vue -->
+  
+  export default {
+   name: ‘casino’,
+   mounted () {
+   console.log(‘dispatching getContractInstance’)
+   this.$store.dispatch(‘getContractInstance’)
+   }
+  }
+  ``````
+
+   이제 store/index.js에서 getContract를 import한 뒤에 여기에 상응하는 action과 mutation을 작성하겠습니다.
+
+  ``````javascript
+  /* action */
+  
+  async getContractInstance({ commit }) {
+    try {
+      let result = await getContract;
+      commit('registerContractInstance', result);
+    } catch (err) {
+      console.log('error in action getContractInstance', err);
+    }
+  }
+  ``````
+
+  ``````javascript
+  /* mutation */
+  
+  registerContractInstance(state, payload) {
+    console.log('Casino contract instance: ', payload);
+    state.contractInstance = () => payload;
+  }
+  ``````
+
+   이 작업을 통해서 우리의 컨트랙트 인스턴스가 컴포넌트로부터 store의 state에 저장될 것입니다.
+
