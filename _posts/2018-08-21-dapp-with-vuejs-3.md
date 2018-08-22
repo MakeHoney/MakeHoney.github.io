@@ -409,7 +409,7 @@ Part.2: <https://makehoney.github.io/post/2018/08/13/dapp-with-vuejs-2/>
 
    저희가 여태까지 만든 DApp의 전체 코드는  <https://github.com/MakeHoney/DApp_with_vue> 이곳에서 확인해 보실 수 있습니다! 여기까지 잘 따라오셨다면 터미널에서 앱을 실행 시킨 뒤에 localhost:8080으로 접속하시어 베팅을 해보시면 아래와 같은 결과를 보실 수 있으실 겁니다.
 
-  ![3](https://user-images.githubusercontent.com/31656287/44471710-70da5800-a667-11e8-9a3d-1a25ad865dba.png)
+  ![1](https://user-images.githubusercontent.com/31656287/44472583-6d47d080-a669-11e8-9954-84862a9e507d.png)
 
   고생하셨습니다!
 
