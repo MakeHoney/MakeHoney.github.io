@@ -1,10 +1,16 @@
 ---
-published: true
-layout: single
-title: "[DApp] web3와 Vue.js를 이용한 첫 이더리움 DApp 만들기 (1)"
-category: post
-tags:
-comments: true
+title: "dapp-with-vue"
+layout: post
+date: 2018-08-13 22:48
+image: /assets/images/markdown.jpg
+headerImage: false
+tag:
+- markdown
+- components
+- extra
+category: blog
+author: jamesfoster
+description: Markdown summary with different options
 ---
 
 - ## DApp Description
@@ -75,6 +81,12 @@ comments: true
 
      <br />
 
+
+  ```javascript
+  const a = []
+  a.filter(el => el === 5)
+  ```
+  
   - ### Ownable 컨트랙트와 Mortal 컨트랙트 작성
 
     ```solidity
