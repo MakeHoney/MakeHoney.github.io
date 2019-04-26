@@ -8,8 +8,9 @@ tag:
 - markdown
 - components
 - extra
-category: blog
+category: javascript
 author: jamesfoster
+star: true
 description: Markdown summary with different options
 ---
 

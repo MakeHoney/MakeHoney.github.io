@@ -16,7 +16,7 @@ resume: false
 resume-external: false
 resume-url: https://google.com/?q=my+resume
 
-url: https://koppl.in/indigo
+url: https://makehoney.github.io
 # your url: http://USERNAME.github.io
 
 permalink: /:title/
@@ -55,22 +55,16 @@ email: patricklee.go3@gmail.com
 
 authors:
     johndoe:
-        name: John Doe
+        name: Byunghun Lee
         bio: A Man who travels the world eating noodles
         external-image: false
         picture: assets/images/profile.jpg
-        twitter: johndoe
-    jamesfoster:
-        name: James Foster
-        bio: A Man who develops software with coffee
-        external-image: false
-        picture: assets/images/james.jpg
-        twitter: jamesfoster
+        # twitter: johndoe
 
 # do you want a larger site? change the option below
 # options: [normal, large] | default: normal
 # normal = 560px / large = 810px
-width: normal
+width: large
 
 # if you don't need pagination, comment the *paginate* configs below
 # paginate: 5
@@ -82,6 +76,7 @@ projects: true
 # if you don't need "about" or "blog", comment them out below
 about: true
 blog: true
+javascript: true
 
 # do you want to show the "read time" of the posts?
 read-time: true
