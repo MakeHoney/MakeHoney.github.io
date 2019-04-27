@@ -4,7 +4,7 @@ layout: page
 ---
 ![Profile Image]({{ site.url }}/{{ site.picture }})
 
-### These Days . . .
+### These days . . .
 - 캡스톤 프로젝트
 - Snowtoon 프로젝트
 - 아리미 (아주대학교 정보알리미 앱 버전) 개발
@@ -17,8 +17,7 @@ layout: page
 - Vue.js / Nuxt.js
 - Node.js
 - Blockchain / Ethereum / DApp
-- Kotlin
-- Java
+- Kotlin / Java
 - Android
 - Spring Framework
 - MySQL / MongoDB
