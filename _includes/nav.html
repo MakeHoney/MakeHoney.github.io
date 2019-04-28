@@ -25,7 +25,15 @@
         {% if site.javascript == true %}
             {% if page.title != "Javascript" %}
                 <li class="item">
-                    <a class="link" href="{{ site.url }}/javascript">Javascript</a>
+                    <a class="link" href="{{ site.url }}/javascript">JS</a>
+                </li>
+            {% endif %}
+        {% endif %}
+
+        {% if site.android == true %}
+            {% if page.title != "Android" %}
+                <li class="item">
+                    <a class="link" href="{{ site.url }}/android">Android</a>
                 </li>
             {% endif %}
         {% endif %}
