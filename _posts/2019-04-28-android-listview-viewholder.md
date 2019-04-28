@@ -30,9 +30,12 @@ ListView는 여러개의 View들을 담는 뷰 컨테이너입니다.
 
 ![1556462318133](https://user-images.githubusercontent.com/48861849/56865953-dc52a180-6a0e-11e9-87fa-7c914a49e605.jpg)
 
-위 그림에서 보이듯, 스크린 사이즈에는 제약이 있기에 ListView에 존재하는 모든 항목을 보여주지는 못합니다. ListView는 내부적으로 스크린에 보여지는 View들만을 생성하고 스크롤링될 때마다 어댑터의 getView 메소드를 통해 새로운 뷰를 불러옵니다.
+위 그림에서 보이듯, 스크린 사이즈에는 제약이 있기에 모든 데이터를 보여주지는 못합니다. 덧붙여, 퍼포먼스를 희생해가며 보이지 않는 모든 데이터를 한번에 패치하여 ListView가 가지고 있을 필요도 없습니다.  
 
-**\* 예제에서는 여러개의 Layout View들을 ListView에 담습니다. Layout View는 위 그림에서 하나의 View를 의미합니다. 예제에서 Layout View는 ImageView와 두 개의 TextView로 이루어져 있습니다. Layout View도 View이기에 의미에 혼선이 있을 수 있으므로, 앞으로 Layout View를 Layout 객체라고 표현하겠습니다.**
+때문에 ListView는 내부적으로 스크린에 보여지는 View들만을 생성하고 스크롤링될 때마다 어댑터의 getView 메소드를 통해 새로운 뷰를 불러옵니다.
+
+
+**\* 예제에서는 화면에 보이는 Layout View들을 ListView에 담습니다. Layout View는 위 그림에서 하나의 View를 의미합니다. 예제에서 Layout View는 ImageView와 두 개의 TextView로 이루어져 있습니다. Layout View도 View이기에 의미에 혼선이 있을 수 있으므로, 앞으로 Layout View를 Layout 객체라고 표현하겠습니다.**
 
 - 스크롤 시 ListView는 getView 메소드를 통해서 어댑터에게 Layout 객체를 요청합니다. 
 
