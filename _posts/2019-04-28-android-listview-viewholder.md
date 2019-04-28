@@ -49,7 +49,6 @@ ListView는 여러개의 View들을 담는 뷰 컨테이너입니다.
 제가 짠 어댑터의 코드는 아래와 같습니다.
 
 **CustomAdapter.kt**
-
 ```kotlin
 class CustomAdapter (private val ctx: Context) : BaseAdapter() {
 
@@ -118,7 +117,6 @@ class CustomAdapter (private val ctx: Context) : BaseAdapter() {
   
 
 **MainActivity.kt**
-
 ```kotlin
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -164,6 +162,7 @@ class MainActivity : AppCompatActivity() {
 
 이를 코드로 표현하면 아래와 같습니다.
 
+**CustomAdapter.kt**
 ```kotlin
 class CustomAdapter (private val ctx: Context) : BaseAdapter() {
     data class ViewHolder(var flag: ImageView?, var nation: TextView?, var capital: TextView?)
