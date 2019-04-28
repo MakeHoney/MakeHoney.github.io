@@ -1,5 +1,5 @@
 ---
-title: "dapp-with-vue"
+title: "Vue.js로 DApp 구현하기 Part.1"
 layout: post
 date: 2018-08-13 22:48
 headerImage: false
@@ -8,10 +8,10 @@ tag:
 - Blockchain
 - javascript
 - Vue.js
-category: javascript
+category: blockchain
 author: makehoney
 star: false
-description: test posting
+description: making dapp with vue.js
 ---
 
 - ## DApp Description
