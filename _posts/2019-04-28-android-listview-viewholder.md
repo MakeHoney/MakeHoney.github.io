@@ -4,10 +4,10 @@ layout: post
 date: 2019-04-28 19:20
 headerImage: false
 tag:
-- ListView
-- ViewHolder
-- Kotlin
-- Android
+- listView
+- viewHolder
+- kotlin
+- android
 category: android
 author: Byunghun Lee
 star: false

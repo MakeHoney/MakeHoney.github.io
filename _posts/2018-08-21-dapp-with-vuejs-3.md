@@ -4,10 +4,10 @@ layout: post
 date: 2018-08-21 22:31
 headerImage: false
 tag:
-- DApp
-- Blockchain
+- dApp
+- blockchain
 - javascript
-- Vue.js
+- vue.js
 category: blockchain
 author: makehoney
 star: false
