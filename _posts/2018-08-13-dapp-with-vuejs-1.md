@@ -2,16 +2,16 @@
 title: "dapp-with-vue"
 layout: post
 date: 2018-08-13 22:48
-image: /assets/images/markdown.jpg
 headerImage: false
 tag:
-- markdown
-- components
-- extra
+- DApp
+- Blockchain
+- javascript
+- Vue.js
 category: javascript
-author: jamesfoster
-star: true
-description: Markdown summary with different options
+author: makehoney
+star: false
+description: test posting
 ---
 
 - ## DApp Description
