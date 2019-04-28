@@ -35,7 +35,7 @@ ListView는 여러개의 View들을 담는 뷰 컨테이너입니다.
 때문에 ListView는 내부적으로 스크린에 보여지는 View들만을 생성하고 스크롤링될 때마다 어댑터의 getView 메소드를 통해 새로운 뷰를 불러옵니다.
 
 
-**\* 예제에서는 화면에 보이는 Layout View들을 ListView에 담습니다. Layout View는 위 그림에서 하나의 View를 의미합니다. 예제에서 Layout View는 ImageView와 두 개의 TextView로 이루어져 있습니다. Layout View도 View이기에 의미에 혼선이 있을 수 있으므로, 앞으로 Layout View를 Layout 객체라고 표현하겠습니다.**
+***\* 예제에서는 화면에 보이는 Layout View들을 ListView에 담습니다. Layout View는 위 그림에서 하나의 View를 의미합니다. 예제에서 Layout View는 ImageView와 두 개의 TextView로 이루어져 있습니다. Layout View도 View이기에 의미에 혼선이 있을 수 있으므로, 앞으로 Layout View를 Layout 객체라고 표현하겠습니다.***
 
 - 스크롤 시 ListView는 getView 메소드를 통해서 어댑터에게 Layout 객체를 요청합니다. 
 
@@ -94,7 +94,7 @@ class CustomAdapter (private val ctx: Context) : BaseAdapter() {
         )
 
         val nations = arrayOf("토고", "프랑스", "스위스", "스페인", "일본", "독일", "브라질", "대한민국")
-        val capitals = arrayOf("로메", "파리", "베른", "마드리드", "도쿄", "베를린", "브라질시티", "서울")
+        val capitals = arrayOf("로메", "파리", "베른", "마드리드", "도쿄", "베를린", "브라질리아", "서울")
 
         val list = ArrayList<HashMap<String, Any>>()
 
