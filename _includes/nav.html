@@ -30,6 +30,14 @@
             {% endif %}
         {% endif %}
 
+        {% if site.ddd == true %}
+            {% if page.title != "ddd" %}
+                <li class="item">
+                    <a class="link" href="{{ site.url }}/DDD">DDD</a>
+                </li>
+            {% endif %}
+        {% endif %}
+
         {% if site.android == true %}
             {% if page.title != "Android" %}
                 <li class="item">

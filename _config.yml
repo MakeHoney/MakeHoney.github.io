@@ -77,6 +77,7 @@ projects: false
 about: true
 blog: true
 javascript: true
+ddd: true
 android: true
 blockchain: true
 
