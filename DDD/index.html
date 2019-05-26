@@ -8,7 +8,7 @@ title: ddd
 		<p class="text-center">Nothing published yet!</p>
 	{% elsif site.paginate %}
 		{% for post in paginator.posts %}
-			{% if post.category == 'DDD' %}
+			{% if post.category == 'ddd' %}
 				{% if post.hidden != true %}
 					{% include blog-post.html %}
 				{% endif %}
@@ -18,7 +18,7 @@ title: ddd
 		{% include pagination.html%}
 	{% else %}
 		{% for post in site.posts %}
-			{% if post.category == 'DDD' %}
+			{% if post.category == 'ddd' %}
 				{% if post.hidden != true %}
 					{% include blog-post.html %}
 				{% endif %}
